@@ -13,6 +13,7 @@ def index():
 # define an endpoint to handle predictions
 @app.route("/predict", methods=["POST"])
 def predict():
+  # return predicted outcome template
   return render_template("predicted.html")
 
 
