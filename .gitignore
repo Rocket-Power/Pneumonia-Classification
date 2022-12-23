@@ -143,3 +143,4 @@ uploadToS3.ipynb
 # ignoring the model that will be loaded in from S3
 res50_dr12.h5
 model.h5
+awsinfo.py
