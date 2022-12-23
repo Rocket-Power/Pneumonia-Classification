@@ -36,6 +36,8 @@ test_data = keras.utils.image_dataset_from_directory(
     batch_size=32, 
 )
 
+fulltrain = train_data.concatenate(val_data)
+
 def build_resnet50_model(drop_rate):
     
     # Define input shape for the model 
@@ -71,11 +73,25 @@ def fit_model(model, train_set, validation_set):
     
     return model
 
+def fit_full_model(model, full_train):
+    """Fit a model with the above stated criteria"""
+    # Set patience to 5 so it doesn't take too long to fit 
+    early_stopping = keras.callbacks.EarlyStopping(patience = 5, monitor = "loss")
+    
+    model.fit(full_train, 
+              callbacks = [early_stopping], 
+              epochs = 500)
+    
+    return model
+
 # set drop rate to 0.10
 drop_rate = 0.10
 result_dict = {}
-resnet50_mod = build_resnet50_model(drop_rate)
-fitted_resnet50_mod = fit_model(resnet50_mod, train_data, val_data)
+# resnet50_mod = build_resnet50_model(drop_rate)
+# fitted_resnet50_mod = fit_model(resnet50_mod, train_data, val_data)
+# result_dict[drop_rate] = fitted_resnet50_mod.evaluate(test_data)
+resnet50_full_mod = build_resnet50_model(drop_rate)
+fitted_resnet50_mod = fit_full_model(resnet50_full_mod, fulltrain)
 result_dict[drop_rate] = fitted_resnet50_mod.evaluate(test_data)
 print(result_dict)
 
@@ -110,6 +126,7 @@ print(cm)
 plt.figure(figsize = (10,10))
 ax = sns.heatmap(cm,cmap= "Blues", linecolor = 'black' , linewidth = 1 , annot = True, fmt='',xticklabels = labels,yticklabels = labels)
 ax.set(xlabel= "Prediction", ylabel = "True Value")
+plt.savefig('confusion_matrix.png')
 # ax.imshow()
 
 classification_report(true_labels,predicted_labels)
@@ -118,4 +135,4 @@ print(classification_report(true_labels, predicted_labels, target_names = ['Norm
 
 # save model
 # !mkdir -p saved_model
-fitted_resnet50_mod.save('res50_dr12.h5')
+fitted_resnet50_mod.save('res50_dr12_full.h5')
