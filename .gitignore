@@ -130,3 +130,17 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# datasplit directory
+data_split/
+
+# ignore model - over 100 mb
+**/.h5
+
+# ignore connection and data to s3
+uploadToS3.ipynb
+
+# ignoring the model that will be loaded in from S3
+res50_dr12.h5
+model.h5
+awsinfo.py
