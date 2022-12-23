@@ -4,17 +4,17 @@ import numpy as np
 
 
 def makePrediction(model):
-  # read in image
-  img = load_img('./image/image.jpeg', target_size = (256, 256))
-  input = img_to_array(img)
-  print(type(input))
-  print(input.shape)
-  input_arr = np.array([input])
-  print(type(input_arr))
-  print(input_arr.shape)
-  # make prediction
-  prediction = model.predict(input_arr)
+  try:
+    # read in image to model target size and set to ndarray 
+    img = load_img('./image/image.jpeg', target_size = (256, 256))
+    input = img_to_array(img)
+    input_arr = np.array([input])
 
-  
+    # make prediction
+    prediction = model.predict(input_arr)
+    # return predicted output
+    return prediction
 
-  return prediction
+  except Exception as e:
+    print(f'Error loading / rendering image in predict.py: {e}')
+    return None
