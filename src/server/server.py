@@ -14,9 +14,9 @@ ALLOWED_EXTENSIONS = {'jpg', 'jpeg'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # variable to store model
-# model = loadModel()
-from keras.models import load_model
-model = load_model('./model/model.h5') 
+model = loadModel()
+# from keras.models import load_model
+# model = load_model('./model/model.h5') 
 
 
 # define an endpoint to handle predictions
